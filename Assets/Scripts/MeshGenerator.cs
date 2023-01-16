@@ -58,6 +58,8 @@ public static class MeshGenerator {
                 vertexIndex++;
             }
         }
+        meshData.BakeNormals();
+        
         return meshData;
     }
 }
@@ -65,6 +67,8 @@ public class Meshdata {
     Vector3[] vertices;
     int[] triangles;
     Vector2[] uvs;
+
+    Vector3[] bakedNormals;
 
     Vector3[] borderVertices;
     int[] borderTriangles;
@@ -101,7 +105,7 @@ public class Meshdata {
             triangleIndex += 3;
         }
     }
-
+    // 计算法线
     Vector3[] CalculateNormals() {
         Vector3[] vertexNormals = new Vector3[vertices.Length];
         int triangleCount = triangles.Length / 3;
@@ -150,12 +154,15 @@ public class Meshdata {
         return Vector3.Cross(sideAB, sideAC).normalized;
     }
 
+    public void BakeNormals() {
+        bakedNormals = CalculateNormals();
+    }
     public Mesh CreateMesh() {
         Mesh mesh = new Mesh();
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.uv = uvs;
-        mesh.normals = CalculateNormals();
+        mesh.normals = bakedNormals;
         mesh.RecalculateNormals();
         return mesh;
     }

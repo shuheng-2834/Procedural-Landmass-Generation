@@ -91,6 +91,7 @@ public class EndlessTerrain : MonoBehaviour {
 
         private LODInfo[] detailLevels;
         private LODMesh[] lodMeshes;
+        private LODMesh collisionLODMesh;
 
         MapData mapData;
         bool mapDataReceived;
@@ -118,6 +119,9 @@ public class EndlessTerrain : MonoBehaviour {
 
             for (int i = 0; i < detailLevels.Length; i++) {
                 lodMeshes[i] = new LODMesh(detailLevels[i].lod, UpdateTerrainChunk);
+                if (detailLevels[i].useForCollider) {
+                    collisionLODMesh = lodMeshes[i];
+                }
             }
 
             mapGenerator.RequestMapData(position, OnMapDataReceived);
@@ -154,11 +158,19 @@ public class EndlessTerrain : MonoBehaviour {
                         if (lodMesh.hasMesh) {
                             previousLODIndex = lodIndex;
                             meshFilter.mesh = lodMesh.mesh;
-                            meshCollider.sharedMesh = lodMesh.mesh;
                         } else if (!lodMesh.hasRequestMesh) {
                             lodMesh.RequestMesh(mapData);
                         }
                     }
+                    // 当玩家接近最高分辨率的地图块时，就会生成碰撞体
+                    if (lodIndex == 0) {
+                        if (collisionLODMesh.hasMesh) {
+                            meshCollider.sharedMesh = collisionLODMesh.mesh;
+                        } else if (!collisionLODMesh.hasRequestMesh) {
+                            collisionLODMesh.RequestMesh(mapData);
+                        }
+                    }
+                    
                     terrainChunksVisibleLastUpdate.Add(this);
                 }
 
@@ -203,8 +215,9 @@ public class EndlessTerrain : MonoBehaviour {
     [System.Serializable]
     public struct LODInfo {
         public int lod;
-
         // 可见距离阈值
         public float visibleDstThreshold;
+
+        public bool useForCollider;
     }
 }
