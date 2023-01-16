@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\EndlessTerrain.cs" />
     <Compile Include="Assets\Scripts\FalloffGenerator.cs" />
+    <Compile Include="Assets\Scripts\HideOnPlay.cs" />
     <Compile Include="Assets\Scripts\MapDisplay.cs" />
     <Compile Include="Assets\Scripts\MapGenerator.cs" />
     <Compile Include="Assets\Scripts\MeshGenerator.cs" />
@@ -628,6 +629,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
+      <Project>{D2F7BC03-7585-D4D4-9315-36B7CFD0F65C}</Project>
+      <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />
