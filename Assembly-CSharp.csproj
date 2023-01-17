@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Data\NoiseData.cs" />
     <Compile Include="Assets\Scripts\Data\TerrainData.cs" />
+    <Compile Include="Assets\Scripts\Data\TextureData.cs" />
     <Compile Include="Assets\Scripts\Data\UpdatableData.cs" />
     <Compile Include="Assets\Scripts\EndlessTerrain.cs" />
     <Compile Include="Assets\Scripts\FalloffGenerator.cs" />
